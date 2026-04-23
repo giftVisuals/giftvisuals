@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Visuals | Premium Video Production</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #e0f2fe; 
+            --white: #ffffff;
+            --text-main: #1d1d1f; 
+            --accent: #0071e3; 
+            --glass: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(180deg, var(--primary-blue) 0%, var(--white) 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.8;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            padding: 80px 0;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header { text-align: center; margin-bottom: 40px; }
+        
+        h1 { 
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 800; 
+            letter-spacing: -2px;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #0071e3, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle { 
+            font-size: 1.2rem; 
+            color: #515154; 
+            font-weight: 400;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- LOGO SCROLL SECTION --- */
+        .trusted-by {
+            margin: 40px 0 80px 0;
+            text-align: center;
+        }
+        .trusted-by p {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #86868b;
+            margin-bottom: 20px;
+        }
+        .slider {
+            height: 60px;
+            margin: auto;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        .slider .slide-track {
+            animation: scroll 20s linear infinite;
+            display: flex;
+            width: calc(250px * 8); 
+        }
+        .slider .slide {
+            height: 60px;
+            width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--accent);
+            letter-spacing: -0.5px;
+            background: var(--glass);
+            margin: 0 10px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 4)); }
+        }
+
+        h2 { font-size: 2.2rem; margin: 60px 0 25px 0; letter-spacing: -1px; text-align: center; }
+
+        .pro-text-section {
+            margin: 60px 0;
+            text-align: left;
+            background: var(--glass);
+            padding: 40px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .pro-text-section p { margin-bottom: 20px; font-size: 1.1rem; color: #333; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 35px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            transition: 0.4s ease;
+        }
+        .card:hover { transform: translateY(-10px); background: white; }
+        .card h3 { font-size: 1.4rem; margin-bottom: 15px; color: var(--accent); }
+
+        /* Workflow Steps */
+        .workflow-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            background: rgba(255,255,255,0.4);
+            padding: 20px;
+            border-radius: 20px;
+        }
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+
+        /* FAQ Section */
+        .faq-item {
+            background: var(--glass);
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: left;
+        }
+        .faq-item h4 { color: var(--accent); margin-bottom: 5px; }
+
+        .vault-cta {
+            background: var(--text-main);
+            color: var(--white);
+            padding: 20px 40px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: 0.4s;
+        }
+        .vault-cta:hover { background: var(--accent); transform: scale(1.05); }
+
+        footer {
+            margin-top: 80px;
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 60px;
+        }
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .social-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: 0.3s;
+        }
+        .social-item i { font-size: 1.8rem; margin-bottom: 8px; color: var(--accent); }
+        .social-item:hover { transform: translateY(-5px); color: var(--accent); }
+
+        .tech-stack {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Hello👋 Welcome to GiftVisuals</h1>
+        <p class="subtitle">High-end production for creators who demand quality, speed, and viral retention.</p>
+    </header>
+
+    <div class="trusted-by">
+        <p>Trusted by Global Brands & Past Clients</p>
+        <div class="slider">
+            <div class="slide-track">
+                <div class="slide">Polycool</div>
+                <div class="slide">CyrusCapital</div>
+                <div class="slide">FinalTheoryLab</div>
+                <div class="slide">Diogenicious</div>
+                <div class="slide">Polycool</div>
+                <div class="slide">CyrusCapital</div>
+                <div class="slide">FinalTheoryLab</div>
+                <div class="slide">Diogenicious</div>
+            </div>
+        </div>
+    </div>
+
+    <section class="pro-text-section">
+        <h2>Expertise & Strategy</h2>
+        <p>In today's fast-paced digital landscape, standard editing isn't enough. I specialize in <strong>high-retention video systems</strong> that don't just look good—they perform. By combining advanced cinematic techniques with cutting-edge AI production, I help brands maintain a dominant visual presence.</p>
+        <p>My workflow is built on three pillars: <strong>Psychological Hooks</strong> to capture attention, <strong>Visual Pacing</strong> to hold engagement, and <strong>Technical Excellence</strong> for premium results.</p>
+    </section>
+
+    <div class="grid">
+        <div class="card">
+            <h3>AI Storytelling</h3>
+            <p>Custom AI-enhanced visuals and digital avatars to scale production without the massive overhead.</p>
+        </div>
+        <div class="card">
+            <h3>Algorithm Mastery</h3>
+            <p>Calculated cuts and transitions designed specifically for Reels, TikTok, and Shorts performance.</p>
+        </div>
+        <div class="card">
+            <h3>Rapid Delivery</h3>
+            <p>Professional Premiere Pro workflow capable of delivering up to 5 high-quality episodes weekly.</p>
+        </div>
+    </div>
+
+    <h2>Smooth Workflow</h2>
+    <div class="workflow-grid">
+        <div class="step">
+            <div class="step-num">1</div>
+            <strong>Raw Upload</strong>
+            <p>Send your clips and brief via cloud storage.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <strong>Visual Magic</strong>
+            <p>I apply retention hooks, sound design, and AI b-roll.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <strong>4K Export</strong>
+            <p>Receive your viral-ready files within 24-48 hours.</p>
+        </div>
+    </div>
+
+    <h2>Common Questions</h2>
+    <div style="max-width: 800px; margin: 0 auto;">
+        <div class="faq-item">
+            <h4>What is your turnaround time?</h4>
+            <p>Standard delivery is 24 to 48 hours depending on the complexity of the project.</p>
+        </div>
+        <div class="faq-item">
+            <h4>Do you handle revisions?</h4>
+            <p>Absolutely. I work with you until the hook and the pacing match your brand perfectly.</p>
+        </div>
+        <div class="faq-item">
+            <h4>What about long-form content?</h4>
+            <p>I specialize in both short-form retention and full-length YouTube production/storytelling.</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 60px;">
+        <h2>The Master Portfolio</h2>
+        <p style="color: #6e6e73; margin-bottom: 30px; font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px;">
+            Download raw 4K quality samples and review master project files.
+        </p>
+        <a href="https://1drv.ms/f/c/2049039B73D97210/IgCkp8yJKlHkSJPfS0WytgWVAdk5QIWQHdhVIM7O_RGPA4s" class="vault-cta" target="_blank">
+            <i class="fa-solid fa-folder-open"></i> &nbsp; Open 4K Work Vault
+        </a>
+    </div>
+
+    <footer>
+        <h2 style="font-size: 1.5rem; margin-top: 0;">Let's Build Something Great</h2>
+        <div class="social-grid">
+            <a href="mailto:giftupdate01@gmail.com" class="social-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span>Email</span>
+            </a>
+            <a href="https://t.me/Giftupdateofficial" class="social-item" target="_blank">
+                <i class="fa-brands fa-telegram"></i>
+                <span>Telegram</span>
+            </a>
+            <a href="https://x.com/GiftVisuals" class="social-item" target="_blank">
+                <i class="fa-brands fa-x-twitter"></i>
+                <span>X (Twitter)</span>
+            </a>
+            <a href="https://www.tiktok.com/@giftpow" class="social-item" target="_blank">
+                <i class="fa-brands fa-tiktok"></i>
+                <span>TikTok</span>
+            </a>
+        </div>
+
+        <div class="tech-stack">
+            <span><i class="fa-solid fa-bolt"></i> Premiere Pro</span>
+            <span><i class="fa-solid fa-bolt"></i> After Effects</span>
+            <span><i class="fa-solid fa-bolt"></i> AI Generation</span>
+            <span><i class="fa-solid fa-bolt"></i> 4K Master Exports</span>
+        </div>
+
+        <p style="margin-top: 40px; font-size: 0.8rem; color: #aaa;">&copy; 2026 Gift Visuals. High-Performance Video Partner.</p>
+    </footer>
+</div>
+
+</body>
+</html>
