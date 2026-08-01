@@ -317,6 +317,94 @@
             border: none;
         }
 
+/* --- GRAPHIC DESIGN SECTION --- */
+.graphic-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 100px;
+}
+.graphic-card {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    cursor: pointer;
+    transition: var(--transition);
+}
+.graphic-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: 0.6s ease;
+}
+.graphic-card:hover { transform: translateY(-6px); border-color: var(--accent); }
+.graphic-card:hover img { transform: scale(1.08); }
+.graphic-zoom-icon {
+    position: absolute; top: 14px; right: 14px;
+    width: 38px; height: 38px; border-radius: 10px;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.2);
+    opacity: 0; transition: 0.3s;
+    color: #fff; font-size: 1rem;
+}
+.graphic-card:hover .graphic-zoom-icon { opacity: 1; }
+
+/* Lightbox */
+.lightbox-overlay {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(10px);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 100000;
+    padding: 30px;
+}
+.lightbox-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+.lightbox-overlay img {
+    max-width: 90vw; max-height: 88vh;
+    border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+.lightbox-close {
+    position: absolute; top: 25px; right: 30px;
+    width: 50px; height: 50px; border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; font-size: 1.4rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.3s;
+}
+.lightbox-close:hover { background: var(--accent); transform: rotate(90deg); }
+.lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 55px; height: 55px; border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; font-size: 1.3rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.3s;
+}
+.lightbox-nav:hover { background: var(--accent); }
+.lightbox-prev { left: 25px; }
+.lightbox-next { right: 25px; }
+
+@media (max-width: 1000px) {
+        .nav-actions { gap: 8px; }
+        .nav-vault-btn { padding: 8px 14px; font-size: 0.7rem; white-space: nowrap; }
+        .nav-vault-btn i { margin-right: 2px; }
+    .graphic-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .lightbox-nav { width: 45px; height: 45px; font-size: 1.1rem; }
+    .lightbox-prev { left: 10px; }
+    .lightbox-next { right: 10px; }
+    .lightbox-close { top: 15px; right: 15px; width: 42px; height: 42px; }
+}
+
         /* --- ANIMATIONS --- */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes heroFade { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
@@ -354,6 +442,9 @@
     <div class="hero-badge">High-Retention Engineering</div>
     <h1>Stop Scrolling.<br>Start Selling.</h1>
     <p>I build viral-ready visual assets that transform passive viewers into active customers. Premium 4K production for the modern creator economy.</p>
+    <a href="#all-graphics" class="nav-vault-btn" style="margin-top: 35px; padding: 16px 36px; font-size: 1rem;">
+        <i class="fa-solid fa-palette"></i> VIEW GRAPHIC DESIGN
+    </a>
 </section>
 
 <div class="container">
@@ -388,7 +479,47 @@
         </div>
     </div>
 
-    <div id="all-videos" class="section-header">
+    <div id="all-graphics" class="section-header">
+    <span style="color: var(--accent); font-weight: 800; letter-spacing: 3px; text-transform: uppercase; font-size: 0.7rem;">Featured Work</span>
+    <h2>Graphic Design</h2>
+</div>
+
+<div class="graphic-grid" id="graphicGrid">
+    <div class="graphic-card" onclick="openLightbox(0)"><img src="https://i.ibb.co/RkYVG6gk/file-00000000148482468aea3fe14c5855b5.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(1)"><img src="https://i.ibb.co/Kjcwr5Nb/file-00000000851482469411b91d3a600c8b.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(2)"><img src="https://i.ibb.co/Xr3MjCBB/file-00000000f22081f4a40732c48144f822.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(3)"><img src="https://i.ibb.co/JWfthKkz/file-00000000fa2481f49fe6fb6edb289b08.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(4)"><img src="https://i.ibb.co/ZpRWryt9/file-00000000a248820a90fabba4e0bd89c5.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(5)"><img src="https://i.ibb.co/b5ybHh12/file-00000000bc2c8243a25ad7323f837bf8.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(6)"><img src="https://i.ibb.co/jPR3ZbNw/file-000000002c687246bd3dffec1fe5821e.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(7)"><img src="https://i.ibb.co/cKSr7MyR/file-0000000068cc71f4a5849d7799e1e4e2.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(8)"><img src="https://i.ibb.co/nsg48Qbf/file-0000000088c071f4aa84cae2669a9c84.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(9)"><img src="https://i.ibb.co/RkgNG35X/file-0000000031787246ad0f6dbf0f395f57.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(10)"><img src="https://i.ibb.co/s9btpyyh/file-00000000dd4c71f4a92134764933bc83.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(11)"><img src="https://i.ibb.co/5WmV5Wcg/file-00000000445c71fba1abfaa524a7778c.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(12)"><img src="https://i.ibb.co/FLcZT4Rw/file-000000006b0872439313cdf2282d9249.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(13)"><img src="https://i.ibb.co/v4psYkwr/file-0000000080d871f4bf92a6832f627ff9.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(14)"><img src="https://i.ibb.co/qYN7qHrM/file-00000000bbcc71f486029c952eb40bb9.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(15)"><img src="https://i.ibb.co/fYx2kpK2/file-00000000276871f4b7d89c272c98060f.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(16)"><img src="https://i.ibb.co/HLs8CVff/file-0000000045547243955ce9aefbd0625a.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(17)"><img src="https://i.ibb.co/cXK7mb5H/file-000000005dd071f4aec1089926c84d17.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(18)"><img src="https://i.ibb.co/RTqV48mh/file-000000006e2471f4a7c8cb3418068a06.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(19)"><img src="https://i.ibb.co/5XvxnTTk/file-0000000087d871f4aeab6adc184a2f1a.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(20)"><img src="https://i.ibb.co/HDSBfpkM/file-00000000f5d471f483b76c4500948d11.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(21)"><img src="https://i.ibb.co/RpPy3c13/file-00000000b54071f4adc19bb01c966a6f.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(22)"><img src="https://i.ibb.co/GvRtpjWd/file-00000000203071f4b02f51712c4380d7.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(23)"><img src="https://i.ibb.co/hJm7mXR2/file-00000000ad8471f495259269e0e39d59.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+    <div class="graphic-card" onclick="openLightbox(24)"><img src="https://i.ibb.co/JWSNyRFg/file-00000000dae071f49219a30b191b623f.png" loading="lazy"><div class="graphic-zoom-icon"><i class="fa-solid fa-expand"></i></div></div>
+</div>
+
+<div class="lightbox-overlay" id="lightboxOverlay">
+    <div class="lightbox-close" onclick="closeLightbox()"><i class="fa-solid fa-xmark"></i></div>
+    <div class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)"><i class="fa-solid fa-chevron-left"></i></div>
+    <img id="lightboxImg" src="" alt="Graphic design work">
+    <div class="lightbox-nav lightbox-next" onclick="navLightbox(1)"><i class="fa-solid fa-chevron-right"></i></div>
+</div>
+
+<div id="all-videos" class="section-header">
         <span style="color: var(--accent); font-weight: 800; letter-spacing: 3px; text-transform: uppercase; font-size: 0.7rem;">Featured Work</span>
         <h2>All Videos</h2>
     </div>
@@ -567,6 +698,32 @@
     };
 
     loadReviews();
+    const graphicImages = Array.from(document.querySelectorAll('#graphicGrid img')).map(img => img.src);
+    let currentLightboxIndex = 0;
+
+    function openLightbox(index) {
+        currentLightboxIndex = index;
+        document.getElementById('lightboxImg').src = graphicImages[index];
+        document.getElementById('lightboxOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        document.getElementById('lightboxOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    function navLightbox(dir) {
+        currentLightboxIndex = (currentLightboxIndex + dir + graphicImages.length) % graphicImages.length;
+        document.getElementById('lightboxImg').src = graphicImages[currentLightboxIndex];
+    }
+    document.getElementById('lightboxOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (!document.getElementById('lightboxOverlay').classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') navLightbox(1);
+        if (e.key === 'ArrowLeft') navLightbox(-1);
+    });
 </script>
 
 </body>
