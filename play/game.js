@@ -13,6 +13,7 @@ import { OutputPass } from './jsm/postprocessing/OutputPass.js';
 
 const $ = (id) => document.getElementById(id);
 const isTouch = matchMedia('(pointer:coarse)').matches;
+window.__step('Loading map 1/6…');
 const W = await (await fetch('world.json')).json();
 
 // ---------------------------------------------------------------- renderer, scene, light
@@ -32,6 +33,7 @@ scene.fog = new THREE.Fog(0xd9d6cc, 40, 380);
 const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.3, 1200);
 
 const pmrem = new THREE.PMREMGenerator(renderer);
+window.__step('Loading sky 2/6…');
 const skyHdr = await new RGBELoader().loadAsync('tex/sky_1k.hdr');
 skyHdr.mapping = THREE.EquirectangularReflectionMapping;
 scene.environment = pmrem.fromEquirectangular(skyHdr).texture;
@@ -191,6 +193,7 @@ const cells = new Map(), CELL = 24;
 const key = (x, z) => `${Math.floor(x / CELL)},${Math.floor(z / CELL)}`;
 const addRect = (p) => { let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9; for (const q of p) { x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); z0 = Math.min(z0, q[1]); z1 = Math.max(z1, q[1]); }
   const rec = { p, x0, x1, z0, z1 }; for (let cx = Math.floor(x0 / CELL); cx <= Math.floor(x1 / CELL); cx++) for (let cz = Math.floor(z0 / CELL); cz <= Math.floor(z1 / CELL); cz++) { const k = `${cx},${cz}`; (cells.get(k) || cells.set(k, []).get(k)).push(rec); } };
+window.__step('Building houses 3/6…'); await new Promise(r => setTimeout(r, 30));
 const HOUSES = buildHouses({ THREE, scene, W, ptex, canvasTex, TL, addRect });
 console.log('houses', JSON.stringify(HOUSES.count), 'doors', HOUSES.doors.length);
 const mtx = new THREE.Matrix4();
@@ -406,6 +409,7 @@ for (let i = 0; i < 14; i++) {
 const SKIN = [0x5a3a2a, 0x6b4430, 0x7a4e36, 0x4a3024, 0x8a5a40];
 const CLOTH = [0x2a5d8f, 0xb8452f, 0xe0c35a, 0x3d7a4a, 0xeeeeee, 0x7a3b7a, 0x1f1f22, 0xc87533, 0x5a6b7a];
 const gltfL = new GLTFLoader();
+window.__step('Loading people 4/6…');
 const [avatar, mocap] = await Promise.all([gltfL.loadAsync('models/frank.glb'), gltfL.loadAsync('models/anims.glb')]);
 const CLIPS = {};
 for (const c of mocap.animations) {
@@ -537,6 +541,7 @@ for (let i = 0; i < 14; i++) {
   scene.add(car); traffic.push(car);
 }
 // street life: gutters, kiosks, POS umbrellas, sheds, mosque, mechanic yard; kekes and okadas
+window.__step('Street life 5/6…'); await new Promise(r => setTimeout(r, 30));
 const SL = buildStreetLife({ THREE, scene, W, blocked, addRect, canvasTex, ptex, majSegs, vehicle, start: [frank.position.x, frank.position.z] });
 console.log('stalls', SL.stalls, 'mosque', !!SL.mosque, 'mech', !!SL.mech);
 function seat(p) {      // a rider sitting on a bike: idle pose, then bend hips and knees, arms forward
@@ -759,6 +764,7 @@ composer.addPass(new ShaderPass({ uniforms: { tDiffuse: { value: null } }, verte
     gl_FragColor = vec4(clamp(c, 0., 1.), 1.); }` }));
 function loop(now) { const dt = Math.min(.05, (now - last) / 1000); last = now; update(dt); if (freeCam) { camera.position.set(freeCam[0], freeCam[1], freeCam[2]); camera.lookAt(freeCam[3], freeCam[4], freeCam[5]); } composer.render(); requestAnimationFrame(loop); }
 addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight); });
+window.__step('Almost ready 6/6…');
 const go = $('go'); go.disabled = false; go.textContent = 'Play';
 if (isTouch) $('rotate').classList.add('need');
 function start() {
