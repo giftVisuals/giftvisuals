@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0c">
+<meta name="robots" content="noindex, nofollow">
+<title>Gift Visuals · Chapter 1 Prototype</title>
+<style>
+@font-face{font-family:Inter;src:url(Inter-Medium.otf);font-weight:500}
+@font-face{font-family:Inter;src:url(Inter-SemiBold.otf);font-weight:600}
+@font-face{font-family:Inter;src:url(InterDisplay-Bold.otf);font-weight:800}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+html,body{width:100%;height:100%;overflow:hidden;background:#0b0b0c;font-family:Inter,system-ui,sans-serif;color:#fff;touch-action:none}
+canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
+.glass{background:rgba(10,12,16,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.16)}
+#hud{position:fixed;inset:0;pointer-events:none;display:none}
+#hud .tap{pointer-events:auto}
+.mini{position:absolute;left:max(18px,env(safe-area-inset-left));top:16px;width:min(23vh,170px);height:min(23vh,170px);border-radius:50%;overflow:hidden;border:3px solid rgba(255,255,255,.85);box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.mini canvas{width:100%;height:100%}
+.bars{position:absolute;left:max(22px,calc(env(safe-area-inset-left) + 4px));top:calc(16px + min(23vh,170px) + 10px);width:min(23vh,170px);display:grid;gap:6px}
+.bar{display:flex;align-items:center;gap:7px}.bar img{width:14px;height:14px;filter:invert(1);opacity:.9}
+.bar i{flex:1;height:6px;border-radius:9px;background:rgba(255,255,255,.22);overflow:hidden}.bar i b{display:block;height:100%;border-radius:9px}
+.stat{position:absolute;right:max(18px,env(safe-area-inset-right));top:14px;text-align:right}
+.money{font-size:clamp(22px,5.4vh,40px);font-weight:800;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.time{font-size:13px;font-weight:600;opacity:.85;margin-top:2px;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+.obj{position:absolute;left:50%;top:14px;transform:translateX(-50%);padding:9px 18px;border-radius:14px;display:flex;align-items:center;gap:10px;max-width:46vw}
+.obj img{width:20px;height:20px;filter:invert(1)}
+.obj small{display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;opacity:.7;text-transform:uppercase}
+.obj span{font-size:clamp(14px,3vh,18px);font-weight:600}
+.dist{font-size:12px;opacity:.75;margin-left:6px}
+#sub{position:absolute;left:50%;bottom:7vh;transform:translateX(-50%);font-size:clamp(15px,3.4vh,22px);font-weight:500;text-align:center;max-width:56vw;text-shadow:0 2px 8px rgba(0,0,0,.95),0 0 2px #000;opacity:0;transition:opacity .25s}
+#sub b{color:#f2c14e;font-weight:600}
+#toast{position:absolute;left:50%;top:22vh;transform:translateX(-50%);text-align:center;opacity:0;transition:opacity .4s}
+#toast .t1{font-size:clamp(26px,7vh,52px);font-weight:800;letter-spacing:-.5px;text-shadow:0 3px 16px rgba(0,0,0,.6)}
+#toast .t2{font-size:clamp(14px,3vh,20px);font-weight:600;color:#7ee2a0;margin-top:4px;text-shadow:0 2px 8px rgba(0,0,0,.7)}
+.stick{position:absolute;left:max(4vh,env(safe-area-inset-left));bottom:4vh;width:min(36vh,230px);height:min(36vh,230px);border-radius:50%}
+.knob{position:absolute;left:50%;top:50%;width:42%;height:42%;margin:-21% 0 0 -21%;border-radius:50%;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7)}
+.btn{position:absolute;border-radius:50%;display:grid;place-items:center}
+.btn img{filter:invert(1);width:44%;height:44%}
+.btn.on{background:rgba(255,255,255,.35)}
+.b-s{width:min(15vh,104px);height:min(15vh,104px)}
+.b-l{width:min(22vh,150px);height:min(22vh,150px);background:rgba(255,255,255,.88);border:none}
+.b-l img{filter:none}
+.b-t{width:min(10.5vh,66px);height:min(10.5vh,66px)}
+.hidden{display:none!important}
+#map-big{position:fixed;inset:6vh 10vw;border-radius:22px;overflow:hidden;display:none;pointer-events:auto}
+#map-big canvas{width:100%;height:100%}
+#map-big .close{position:absolute;right:14px;top:14px;width:44px;height:44px}
+#start{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(900px 500px at 50% 40%,#1b1b1e,#0b0b0c);z-index:10;text-align:center;padding:20px}
+#start .mark{width:64px;height:64px}
+#start h1{font-size:clamp(28px,6vw,54px);font-weight:800;letter-spacing:-1px;line-height:1}
+#start p{color:#a1a1a6;max-width:520px;font-size:15px}
+#start button{margin-top:6px;font:600 16px Inter;padding:15px 34px;border-radius:999px;border:0;background:#fff;color:#0b0b0c}
+#start small{color:#6e6e73;font-size:12px}
+#rotate{position:fixed;inset:0;z-index:20;background:#0b0b0c;display:none;align-items:center;justify-content:center;text-align:center;font-weight:600;padding:30px}
+@media (orientation:portrait) and (pointer:coarse){#rotate.need{display:flex}}
+#loading{color:#a1a1a6;font-size:13px}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="start">
+  <svg class="mark" viewBox="0 0 100 100"><path d="M80.6 25.4 A38 38 0 1 0 88 50" fill="none" stroke="#fff" stroke-width="12"/><path d="M26 30 H39 L48 55 L56 44 H94 V56 H61 L54 70 H43 Z" fill="#fff"/></svg>
+  <h1>Chapter 1 · Ibadan</h1>
+  <p>Prototype build. The real streets of Challenge, Ibadan. Meet Tunde at the motor park, then take the danfo out.</p>
+  <button id="go" disabled>Loading…</button>
+  <small id="loading">Phone: turn sideways. Computer: WASD to move, mouse to look, Shift sprint, Space jump, F car, click to punch, M map.</small>
+</div>
+<div id="rotate">Turn your phone sideways to play.</div>
+
+<div id="hud">
+  <div class="mini glass"><canvas id="mini" width="340" height="340"></canvas></div>
+  <div class="bars">
+    <div class="bar"><img src="icons/heart.svg" alt=""><i><b id="hp" style="width:100%;background:#4ade80"></b></i></div>
+    <div class="bar"><img src="icons/shield.svg" alt=""><i><b style="width:35%;background:#60a5fa"></b></i></div>
+  </div>
+  <div class="stat"><div class="money" id="money">₦45,500</div><div class="time" id="clock">6:40 PM · Monday</div></div>
+  <div class="obj glass" id="obj"><img src="icons/map-pin.svg" alt=""><div><small id="objT">Last Day of School</small><span id="objS">Meet Tunde at the motor park</span><span class="dist" id="objD"></span></div></div>
+  <div id="sub"></div>
+  <div id="toast"><div class="t1" id="t1"></div><div class="t2" id="t2"></div></div>
+
+  <div class="stick glass tap" id="stick"><div class="knob" id="knob"></div></div>
+  <div class="btn b-l tap" id="bAtk" style="right:max(4vh,env(safe-area-inset-right));bottom:4vh"><img src="icons/crosshair.svg" alt="Punch"></div>
+  <div class="btn b-s glass tap" id="bJump" style="right:calc(max(4vh,env(safe-area-inset-right)) + min(22vh,150px) + 2vh);bottom:3vh"><img src="icons/arrow-big-up.svg" alt="Jump"></div>
+  <div class="btn b-s glass tap" id="bRun" style="right:calc(max(4vh,env(safe-area-inset-right)) + min(22vh,150px) + 1vh);bottom:calc(3vh + min(15vh,104px) + 2vh)"><img src="icons/footprints.svg" alt="Sprint"></div>
+  <div class="btn b-s glass tap hidden" id="bEnter" style="right:calc(max(4vh,env(safe-area-inset-right)) + min(15vh,104px) + 2vh);bottom:calc(4vh + min(22vh,150px) + 2vh)"><img src="icons/door-open.svg" alt="Enter"></div>
+  <div class="btn b-s glass tap" id="bCar" style="right:max(4vh,env(safe-area-inset-right));bottom:calc(4vh + min(22vh,150px) + 2vh)"><img src="icons/car.svg" alt="Car"></div>
+  <div class="btn b-t glass tap" id="bMap" style="right:calc(max(18px,env(safe-area-inset-right)) + min(10.5vh,66px) + 10px);top:calc(14px + clamp(22px,5.4vh,40px) + 30px)"><img src="icons/map.svg" alt="Map"></div>
+  <div class="btn b-t glass tap" id="bPhone" style="right:max(18px,env(safe-area-inset-right));top:calc(14px + clamp(22px,5.4vh,40px) + 30px)"><img src="icons/smartphone.svg" alt="Phone"></div>
+</div>
+<div id="map-big" class="glass"><canvas id="bigmap" width="1400" height="900"></canvas><div class="btn glass close tap" id="bClose"><img src="icons/x.svg" alt="Close"></div></div>
+
+<script type="importmap">{"imports":{"three":"./three.module.min.js"}}</script>
+<script type="module" src="game.js"></script>
+</body>
+</html>
