@@ -1,0 +1,44 @@
+rules_version = '2';
+// Creator Portal security rules. Paste into Firebase console > Firestore > Rules, then Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && request.auth.token.email != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+    function me() { return get(/databases/$(database)/documents/creators/$(request.auth.uid)).data; }
+    function approved() {
+      return signedIn() && exists(/databases/$(database)/documents/creators/$(request.auth.uid))
+        && me().status == 'approved';
+    }
+
+    // An admin can read their own admin doc (that is how the page knows they are an admin).
+    match /admins/{email} {
+      allow read: if signedIn() && request.auth.token.email == email;
+      allow write: if false;            // add admins only in the Firebase console
+    }
+
+    match /creators/{uid} {
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == uid);
+      allow create: if signedIn() && request.auth.uid == uid && request.resource.data.status == 'pending';
+      // creators may edit their own profile but never their status or admin note
+      allow update: if isAdmin() || (signedIn() && request.auth.uid == uid
+        && request.resource.data.status == resource.data.status
+        && request.resource.data.get('adminNote', '') == resource.data.get('adminNote', ''));
+      allow delete: if isAdmin();
+    }
+
+    match /jobs/{id} {
+      allow read: if isAdmin() || approved();
+      allow write: if isAdmin();
+    }
+
+    match /submissions/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if approved() && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'submitted';
+      allow update, delete: if isAdmin();
+    }
+  }
+}
